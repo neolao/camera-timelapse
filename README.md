@@ -31,7 +31,7 @@ flash_threshold=15
 | `quality` | 0–63 | 10 | JPEG quality (0 = best, 63 = smallest) |
 | `resolution` | `UXGA` (1600×1200) `SXGA` (1280×1024) `XGA` (1024×768) `SVGA` (800×600) `VGA` (640×480) | `UXGA` | Capture resolution |
 | `flash` | `off` `on` `auto` | `off` | Flash LED mode |
-| `flash_threshold` | 0–30 | 15 | AGC gain level above which auto flash triggers |
+| `flash_threshold` | 0–30 | 15 | Darkness level above which auto flash triggers (0 = always, 30 = only in near-darkness) |
 
 Photos are saved in a `photos/` folder on the SD card as `IMG_00001.JPG`, `IMG_00002.JPG`, etc. The sequence resumes correctly after a power cut or reset.
 

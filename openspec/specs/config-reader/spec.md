@@ -44,23 +44,23 @@ The system SHALL read the `resolution` key as a string from: `UXGA`, `SXGA`, `XG
 The system SHALL read the `flash` key as one of: `off`, `on`, `auto`. Default value: `off`.
 - `off`: flash LED never used
 - `on`: flash LED always enabled during capture
-- `auto`: flash LED enabled only if ambient light is insufficient (determined by AGC gain)
+- `auto`: flash LED enabled only if ambient light is insufficient (determined by AEC exposure value)
 
 #### Scenario: Flash always on
 - **WHEN** `flash=on` is present in config.txt
 - **THEN** the flash LED is activated for every capture
 
 #### Scenario: Flash auto — dark environment
-- **WHEN** `flash=auto` and the sensor AGC gain is at or above `flash_threshold`
-- **THEN** the flash LED is activated and a log line reports the gain and decision
+- **WHEN** `flash=auto` and the sensor AEC value is at or above `flash_threshold × 40`
+- **THEN** the flash LED is activated and a log line reports the AEC value, threshold, and decision
 
 #### Scenario: Flash auto — bright environment
-- **WHEN** `flash=auto` and the sensor AGC gain is below `flash_threshold`
+- **WHEN** `flash=auto` and the sensor AEC value is below `flash_threshold × 40`
 - **THEN** the flash LED is not activated
 
 ### Requirement: flash_threshold parameter
-The system SHALL read the `flash_threshold` key as an integer from 0 to 30 representing the OV2640 AGC gain level above which auto flash is triggered. Default value: 15.
+The system SHALL read the `flash_threshold` key as an integer from 0 to 30 representing the darkness level above which auto flash is triggered. Default value: 15. Internally mapped to an AEC threshold of `flash_threshold × 40` (range 0–1200). A lower value triggers flash more easily; 0 means always flash in auto mode, 30 means only in near-total darkness.
 
 #### Scenario: Valid threshold
-- **WHEN** `flash_threshold=20` is present in config.txt
-- **THEN** auto flash triggers only when AGC gain ≥ 20
+- **WHEN** `flash_threshold=7` is present in config.txt
+- **THEN** auto flash triggers when AEC value ≥ 280 (7 × 40)

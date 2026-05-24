@@ -188,10 +188,12 @@ void setup() {
     } else if (cfg.flash == FlashMode::AUTO) {
         sensor_t* sensor = esp_camera_sensor_get();
         if (sensor) {
-            int gain = sensor->status.agc_gain;
-            useFlash = (gain >= cfg.flashThreshold);
-            Serial.printf("[INFO] Auto flash: gain=%d threshold=%d flash=%s\n",
-                          gain, cfg.flashThreshold, useFlash ? "on" : "off");
+            // aec_value (0–1200) reflects actual auto-exposure; agc_gain is the manual register (always 0 in auto mode)
+            int aec = sensor->status.aec_value;
+            int aecThreshold = cfg.flashThreshold * 40; // map 0–30 → 0–1200
+            useFlash = (aec >= aecThreshold);
+            Serial.printf("[INFO] Auto flash: aec=%d threshold=%d flash=%s\n",
+                          aec, aecThreshold, useFlash ? "on" : "off");
         }
     }
 

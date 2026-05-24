@@ -19,7 +19,7 @@ After initialization, the system SHALL discard 5 dummy frames (100 ms apart) to 
 - **THEN** 5 frames are captured and discarded before the photo is taken
 
 #### Scenario: AEC warmup with flash
-- **WHEN** flash is active (on or auto with gain ≥ threshold)
+- **WHEN** flash is active (on or auto with aec_value ≥ flash_threshold × 40)
 - **THEN** the flash LED is turned on, then 3 additional frames are discarded before capture
 
 ### Requirement: JPEG frame capture
